@@ -11,11 +11,9 @@
  */
 package Sockets.Client.Client1;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * TODO: add description
@@ -29,10 +27,34 @@ public class Main {
 
     static void init () throws IOException {
         Socket clientSocket = new Socket("localhost",7777);
+        String inMessage;
+        String outMessage;
+        Scanner fromUser =new Scanner(System.in);
 
-        OutputStreamWriter out = new OutputStreamWriter(clientSocket.getOutputStream());
-        out.write("Привет, я Client1"+"\n");
-        out.flush();
-        out.close();
+        DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+        DataInputStream in = new DataInputStream(clientSocket.getInputStream());
+        System.out.println("Подключение...");
+
+        if (in.readUTF().equals("Назовите ваше имя")) {
+            out.writeUTF("Client2");
+            out.flush();
+        }
+
+        while (!clientSocket.isInputShutdown()) {
+            if (in.available() > 0) {
+                inMessage = in.readUTF();
+                System.out.println(inMessage);
+            }
+
+            if (fromUser.hasNextLine()) {
+                outMessage = fromUser.nextLine();
+                out.writeUTF(outMessage);
+            }
+//            Thread.sleep(50);
+        }
+
+
+     //   out.close();
+
     }
 }

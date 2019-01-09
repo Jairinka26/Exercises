@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * TODO: add description
@@ -26,21 +27,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         init();
     }
-    private static int PORT = 7777;
+
 
     static void init() throws IOException {
-        ServerSocket serverSocket= new ServerSocket(PORT);
-        System.out.println("Сервер запущен");
-        Socket socket = serverSocket.accept();
-        System.out.println("Соединение установлено ");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String str;
-        while(true) {
-            str = in.readLine();
-            if (!str.equals("null")) {
-                System.out.println("Получено сообщение от клиента: " + str);
-            }
-        }
+       new Server();
     }
 }
