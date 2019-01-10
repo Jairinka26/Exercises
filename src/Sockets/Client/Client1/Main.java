@@ -50,7 +50,6 @@ public class Main {
                 outMessage = fromUser.nextLine();
                 out.writeUTF(outMessage);
             }
-//            Thread.sleep(50);
         }
 
 
